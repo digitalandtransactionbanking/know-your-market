@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/know-your-market/static/css/main.073c9b0a.css",
+    "main.js": "/know-your-market/static/js/main.b0263883.js",
+    "static/js/787.6ffb8d7c.chunk.js": "/know-your-market/static/js/787.6ffb8d7c.chunk.js",
+    "static/media/logo.svg": "/know-your-market/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/know-your-market/index.html",
+    "main.073c9b0a.css.map": "/know-your-market/static/css/main.073c9b0a.css.map",
+    "main.b0263883.js.map": "/know-your-market/static/js/main.b0263883.js.map",
+    "787.6ffb8d7c.chunk.js.map": "/know-your-market/static/js/787.6ffb8d7c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.b0263883.js"
+  ]
+}
