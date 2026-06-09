@@ -457,9 +457,9 @@
       });
 
       function renderCurrentResults() {
-        currentShare.textContent = state.depositSize == null ? "-" : `${formatNumber(state.depositSize)}%`;
-        currentBusiness.textContent = state.depositAmount == null ? "-" : formatNumber(state.depositAmount);
-        currentMarket.textContent = state.marketSize == null ? "-" : formatNumber(state.marketSize);
+        currentShare.textContent = state.depositSize == null ? "-" : `${formatNumber(state.depositSize)} %`;
+        currentBusiness.textContent = state.depositAmount == null ? "-" : `${formatNumber(state.depositAmount)} Cr`;
+        currentMarket.textContent = state.marketSize == null ? "-" : `${formatNumber(state.marketSize)} Cr`;
       }
 
       function syncSliderLabels() {
@@ -538,8 +538,8 @@
         const amountNeeded =
           newMarketSize * ((targetGrowth + state.depositSize) / 100) - state.depositAmount;
 
-        projectedMarket.textContent = formatNumber(newMarketSize);
-        requiredGrowth.textContent = formatNumber(amountNeeded);
+        projectedMarket.textContent = `${formatNumber(newMarketSize)} Cr`;
+        requiredGrowth.textContent = `${formatNumber(amountNeeded)} Cr`;
         growthMessage.textContent = "Projection updated using the current baseline.";
       });
 
