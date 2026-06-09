@@ -1,1 +1,553 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/know-your-market/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/know-your-market/logo192.png"/><link rel="manifest" href="/know-your-market/manifest.json"/><title>React App</title><script defer="defer" src="/know-your-market/static/js/main.6167457d.js"></script><link href="/know-your-market/static/css/main.e6c13ad2.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Know Your Market</title>
+    <meta
+      name="description"
+      content="A simple market size and growth target calculator."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f7fb;
+        --surface: #ffffff;
+        --surface-muted: #f8fafc;
+        --border: #d9e2ec;
+        --text: #12263a;
+        --text-muted: #5c6b7a;
+        --primary: #1c4fa1;
+        --primary-soft: #e8f0ff;
+        --shadow: 0 18px 40px rgba(18, 38, 58, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+        color: var(--text);
+      }
+
+      .shell {
+        width: min(960px, calc(100% - 32px));
+        margin: 40px auto;
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .header {
+        display: grid;
+        gap: 0;
+        padding: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        display: grid;
+        gap: 12px;
+      }
+
+      .brand-banner {
+        padding: 24px 24px 0;
+      }
+
+      .brand-banner img {
+        display: block;
+        width: min(100%, 220px);
+        height: auto;
+        object-fit: contain;
+      }
+
+      .eyebrow {
+        margin: 0 0 4px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.6rem, 2vw, 2rem);
+        line-height: 1.1;
+      }
+
+      .subtext {
+        margin: 6px 0 0;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      .header-row {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 0 24px 18px;
+      }
+
+      .tabs {
+        display: inline-flex;
+        gap: 8px;
+        padding: 6px;
+        background: var(--surface-muted);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+      }
+
+      .tab {
+        border: 0;
+        background: transparent;
+        color: var(--text-muted);
+        padding: 10px 14px;
+        border-radius: 999px;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 2px 10px rgba(18, 38, 58, 0.08);
+      }
+
+      .content {
+        padding: 24px;
+      }
+
+      .view {
+        display: none;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: 20px;
+      }
+
+      .section {
+        padding: 22px;
+        background: var(--surface-muted);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+      }
+
+      .section h2 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .section p {
+        margin: 0 0 18px;
+        color: var(--text-muted);
+        font-size: 0.94rem;
+      }
+
+      .fields {
+        display: grid;
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 8px;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      input[type="number"],
+      input[type="range"] {
+        width: 100%;
+      }
+
+      input[type="number"] {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        padding: 14px 15px;
+        font: inherit;
+        color: var(--text);
+        outline: none;
+      }
+
+      input[type="number"]:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(28, 79, 161, 0.1);
+      }
+
+      input[type="range"] {
+        accent-color: var(--primary);
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .secondary {
+        background: #fff;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .result {
+        display: grid;
+        gap: 12px;
+      }
+
+      .stat {
+        padding: 16px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid var(--border);
+      }
+
+      .stat-label {
+        display: block;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+
+      .stat-value {
+        font-size: 1.35rem;
+        font-weight: 600;
+      }
+
+      .hint {
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.92rem;
+      }
+
+      .slider-row {
+        display: grid;
+        gap: 8px;
+      }
+
+      .slider-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      @media (max-width: 760px) {
+        .shell {
+          width: min(100% - 20px, 960px);
+          margin: 20px auto;
+        }
+
+        .header-row,
+        .layout {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .brand-banner {
+          width: 100%;
+          padding: 20px 20px 0;
+        }
+
+        .tabs {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .tab {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <header class="header">
+          <div class="brand">
+            <div class="brand-banner">
+              <img src="./sbi_logo.png" alt="SBI logo" />
+            </div>
+
+            <div class="header-row">
+              <div>
+                <p class="eyebrow">Know Your Market</p>
+                <h1>Simple market calculator</h1>
+                <p class="subtext">Current market size and growth target in one place.</p>
+              </div>
+
+              <nav class="tabs" aria-label="Calculator mode">
+                <button class="tab active" data-view-target="current-view" type="button">Current Size</button>
+                <button class="tab" data-view-target="growth-view" type="button">Growth Target</button>
+              </nav>
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <section class="view active" id="current-view">
+            <div class="layout">
+              <div class="section">
+                <h2>Current market size</h2>
+                <p>Enter any two fields. The third value will be calculated.</p>
+
+                <div class="fields">
+                  <label>
+                    Your Current Market Share (%)
+                    <input id="share" type="number" min="0" step="0.01" />
+                  </label>
+
+                  <label>
+                    Your Current Business Level (Cr)
+                    <input id="business" type="number" min="0" step="0.01" />
+                  </label>
+
+                  <label>
+                    Total Market Size (Cr)
+                    <input id="market" type="number" min="0" step="0.01" />
+                  </label>
+                </div>
+
+                <div class="actions">
+                  <button class="primary" id="calculate-current" type="button">Calculate</button>
+                  <button class="secondary" id="reset-current" type="button">Reset</button>
+                </div>
+              </div>
+
+              <aside class="section result">
+                <div class="hint" id="current-message">Fill any two values to calculate the third.</div>
+                <div class="stat">
+                  <span class="stat-label">Market Share</span>
+                  <div class="stat-value" id="current-share">-</div>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Business Level</span>
+                  <div class="stat-value" id="current-business">-</div>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Total Market Size</span>
+                  <div class="stat-value" id="current-market">-</div>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="view" id="growth-view">
+            <div class="layout">
+              <div class="section">
+                <h2>Growth target</h2>
+                <p>Uses the current calculation above as the baseline for growth projection.</p>
+
+                <div class="fields">
+                  <div class="slider-row">
+                    <div class="slider-meta">
+                      <span>Expected Market Growth (%)</span>
+                      <strong id="market-growth-value">2.5%</strong>
+                    </div>
+                    <input id="market-growth" type="range" min="0.1" max="20" step="0.1" value="2.5" />
+                  </div>
+
+                  <div class="slider-row">
+                    <div class="slider-meta">
+                      <span>Your Targeted Growth (%)</span>
+                      <strong id="target-growth-value">1.5%</strong>
+                    </div>
+                    <input id="target-growth" type="range" min="0.1" max="20" step="0.1" value="1.5" />
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <button class="primary" id="calculate-growth" type="button">Calculate</button>
+                </div>
+              </div>
+
+              <aside class="section result">
+                <div class="hint" id="growth-message">Calculate current market size first to project growth.</div>
+                <div class="stat">
+                  <span class="stat-label">Projected Total Market Size</span>
+                  <div class="stat-value" id="projected-market">-</div>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Amount Needed For Growth</span>
+                  <div class="stat-value" id="required-growth">-</div>
+                </div>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const tabs = document.querySelectorAll(".tab");
+      const views = document.querySelectorAll(".view");
+
+      const shareInput = document.getElementById("share");
+      const businessInput = document.getElementById("business");
+      const marketInput = document.getElementById("market");
+
+      const currentMessage = document.getElementById("current-message");
+      const currentShare = document.getElementById("current-share");
+      const currentBusiness = document.getElementById("current-business");
+      const currentMarket = document.getElementById("current-market");
+
+      const marketGrowthInput = document.getElementById("market-growth");
+      const targetGrowthInput = document.getElementById("target-growth");
+      const marketGrowthValue = document.getElementById("market-growth-value");
+      const targetGrowthValue = document.getElementById("target-growth-value");
+      const growthMessage = document.getElementById("growth-message");
+      const projectedMarket = document.getElementById("projected-market");
+      const requiredGrowth = document.getElementById("required-growth");
+
+      const state = {
+        depositSize: null,
+        depositAmount: null,
+        marketSize: null
+      };
+
+      function formatNumber(value, suffix = "") {
+        return `${Number(value).toFixed(2)}${suffix}`;
+      }
+
+      function showView(id) {
+        tabs.forEach((tab) => {
+          tab.classList.toggle("active", tab.dataset.viewTarget === id);
+        });
+        views.forEach((view) => {
+          view.classList.toggle("active", view.id === id);
+        });
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => showView(tab.dataset.viewTarget));
+      });
+
+      function renderCurrentResults() {
+        currentShare.textContent = state.depositSize == null ? "-" : `${formatNumber(state.depositSize)}%`;
+        currentBusiness.textContent = state.depositAmount == null ? "-" : formatNumber(state.depositAmount);
+        currentMarket.textContent = state.marketSize == null ? "-" : formatNumber(state.marketSize);
+      }
+
+      function syncSliderLabels() {
+        marketGrowthValue.textContent = `${marketGrowthInput.value}%`;
+        targetGrowthValue.textContent = `${targetGrowthInput.value}%`;
+      }
+
+      function resetCurrent() {
+        shareInput.value = "";
+        businessInput.value = "";
+        marketInput.value = "";
+
+        state.depositSize = null;
+        state.depositAmount = null;
+        state.marketSize = null;
+
+        currentMessage.textContent = "Fill any two values to calculate the third.";
+        growthMessage.textContent = "Calculate current market size first to project growth.";
+        projectedMarket.textContent = "-";
+        requiredGrowth.textContent = "-";
+        renderCurrentResults();
+      }
+
+      document.getElementById("calculate-current").addEventListener("click", () => {
+        const a = shareInput.value.trim();
+        const b = businessInput.value.trim();
+        const c = marketInput.value.trim();
+
+        let share = a === "" ? null : parseFloat(a);
+        let business = b === "" ? null : parseFloat(b);
+        let market = c === "" ? null : parseFloat(c);
+
+        if ([share, business, market].filter((value) => value !== null).length !== 2) {
+          currentMessage.textContent = "Enter exactly two values to calculate the third.";
+          return;
+        }
+
+        if (share === null && business !== null && market !== null) {
+          share = (business / market) * 100;
+          currentMessage.textContent = `Market share calculated from business level and total market size.`;
+        } else if (business === null && share !== null && market !== null) {
+          business = (share / 100) * market;
+          currentMessage.textContent = `Business level calculated from market share and total market size.`;
+        } else if (market === null && share !== null && business !== null) {
+          market = business / (share / 100);
+          currentMessage.textContent = `Total market size calculated from market share and business level.`;
+        }
+
+        state.depositSize = share;
+        state.depositAmount = business;
+        state.marketSize = market;
+
+        shareInput.value = formatNumber(share);
+        businessInput.value = formatNumber(business);
+        marketInput.value = formatNumber(market);
+
+        renderCurrentResults();
+        growthMessage.textContent = "Baseline ready. Switch to Growth Target to continue.";
+      });
+
+      document.getElementById("reset-current").addEventListener("click", resetCurrent);
+
+      document.getElementById("calculate-growth").addEventListener("click", () => {
+        if (
+          state.depositSize == null ||
+          state.depositAmount == null ||
+          state.marketSize == null
+        ) {
+          growthMessage.textContent = "Current market size is required before running a growth projection.";
+          return;
+        }
+
+        const marketGrowth = parseFloat(marketGrowthInput.value);
+        const targetGrowth = parseFloat(targetGrowthInput.value);
+        const newMarketSize = state.marketSize * (1 + marketGrowth / 100);
+        const amountNeeded =
+          newMarketSize * ((targetGrowth + state.depositSize) / 100) - state.depositAmount;
+
+        projectedMarket.textContent = formatNumber(newMarketSize);
+        requiredGrowth.textContent = formatNumber(amountNeeded);
+        growthMessage.textContent = "Projection updated using the current baseline.";
+      });
+
+      marketGrowthInput.addEventListener("input", syncSliderLabels);
+      targetGrowthInput.addEventListener("input", syncSliderLabels);
+
+      syncSliderLabels();
+      renderCurrentResults();
+    </script>
+  </body>
+</html>
